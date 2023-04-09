@@ -1,5 +1,6 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { filterContact } from 'redux/contactSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { onChangeFilter } from 'redux/filterSlice';
+import { selectFilter } from 'redux/selectors';
 import {
   FilterContainer,
   FilterLabel,
@@ -8,16 +9,22 @@ import {
 
 const Filter = () => {
   const dispatch = useDispatch();
-  const filter = useSelector(state => state.contacts.filter);
+  const filter = useSelector(selectFilter);
 
-  const filterChange = event => {
-    dispatch(filterContact(event.currentTarget.value));
-  };
+  function handleInputChange(event) {
+    dispatch(onChangeFilter(event.target.value));
+  }
+
   return (
     <FilterContainer>
       <FilterLabel>
         Filter
-        <FilterInput type="name" value={filter} onChange={filterChange} />
+        <FilterInput
+          type="text"
+          name="filter"
+          value={filter}
+          onChange={handleInputChange}
+        />
       </FilterLabel>
     </FilterContainer>
   );

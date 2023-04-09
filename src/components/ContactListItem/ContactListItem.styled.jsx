@@ -1,20 +1,20 @@
 import styled from '@emotion/styled';
 
-const ContactItem = styled.li`
-  background-color: #fff;
-  border: 1px solid #000;
+const ContactItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   padding: 10px;
   border-radius: 4px;
   margin-bottom: 5px;
-  display: flex;
-  justify-content: space-between;
+  background-image: linear-gradient(to right, #553c9a 45%, #ee4b2b);
 `;
 
-const ContactName = styled.p`
+const ContactInfo = styled.div`
   margin-right: 30px;
   padding: 10px;
   color: white;
-  background-image: linear-gradient(to right, #553c9a 45%, #ee4b2b);
+
   border-radius: 5px;
 `;
 
@@ -53,4 +53,4 @@ const ContactButton = styled.button`
   }
 `;
 
-export { ContactItem, ContactName, ContactButton };
+export { ContactItem, ContactInfo, ContactButton };

@@ -9,10 +9,13 @@ const AppContainer = styled.div`
 `;
 
 const PhonebookTitle = styled.h1`
+  margin-top: 70px;
+  margin-bottom: 50px;
   color: white;
 `;
 
 const ContactsTitle = styled.h2`
+  margin-bottom: 60px;
   margin-top: 70px;
   color: white;
 `;

@@ -1,32 +1,54 @@
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/contactSlice';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContact } from 'redux/operations';
+import { selectError, selectIsLoading } from 'redux/selectors';
+import { toast } from 'react-toastify';
+import { PuffLoader } from 'react-spinners';
 import {
   ContactItem,
-  ContactName,
+  ContactInfo,
   ContactButton,
 } from './ContactListItem.styled';
 
-const ContactsListItem = ({ id, name, number }) => {
+const ContactListItem = ({ contact }) => {
+  const [contactId, setContactId] = useState(null);
+
   const dispatch = useDispatch();
-  const contactDelete = id => dispatch(deleteContact(id));
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
+
+  const handleDelete = () => {
+    dispatch(deleteContact(contact.id));
+    setContactId(contact.id);
+
+    if (!error) {
+      toast.success(`Contact ${contact.name} successfully deleted!`);
+    }
+  };
 
   return (
-    <ContactItem id={id}>
-      <ContactName>
-        {name} - {number}
-      </ContactName>
-      <ContactButton type="button" onClick={() => contactDelete(id)}>
-        Delete
-      </ContactButton>
+    <ContactItem>
+      <ContactInfo>
+        {contact.name} - {contact.phone}
+      </ContactInfo>
+      {isLoading && contactId === contact.id ? (
+        <PuffLoader size={40} color="#ef4765" loading speedMultiplier={2} />
+      ) : (
+        <ContactButton
+          type="button"
+          onClick={handleDelete}
+          disabled={isLoading}
+        >
+          Delete
+        </ContactButton>
+      )}
     </ContactItem>
   );
 };
 
-ContactsListItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
+ContactListItem.propTypes = {
+  contact: PropTypes.object.isRequired,
 };
 
-export default ContactsListItem;
+export default ContactListItem;

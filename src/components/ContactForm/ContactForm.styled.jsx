@@ -1,6 +1,9 @@
+import { Form, Field, Formik } from 'formik';
 import styled from '@emotion/styled';
 
-const FormContainer = styled.form`
+const FormikContainer = styled(Formik)``;
+
+const FormContainer = styled(Form)`
   background-image: linear-gradient(to right, #553c9a 45%, #ee4b2b);
   display: flex;
   justify-content: center;
@@ -20,11 +23,11 @@ const FormLabel = styled.label`
   }
 `;
 
-const InputName = styled.input`
+const InputName = styled(Field)`
   margin-left: 26px;
 `;
 
-const InputNumber = styled.input`
+const InputNumber = styled(InputName)`
   margin-left: 10px;
 `;
 
@@ -62,4 +65,11 @@ const FormButton = styled.button`
       0.125rem 0.125rem 1rem rgba(255, 154, 90, 0.5);
   }
 `;
-export { FormContainer, FormLabel, InputName, InputNumber, FormButton };
+export {
+  FormikContainer,
+  FormContainer,
+  FormLabel,
+  InputName,
+  InputNumber,
+  FormButton,
+};
