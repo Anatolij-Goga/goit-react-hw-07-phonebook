@@ -1,5 +1,10 @@
 import { ErrorMessage } from 'formik';
 import { object, string } from 'yup';
+import { useDispatch } from 'react-redux';
+import { addContact } from 'redux/operations';
+import { selectContacts } from 'redux/selectors';
+import { useSelector } from 'react-redux/es/exports';
+import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 import {
   FormikContainer,
@@ -15,7 +20,7 @@ const initialValues = {
   phone: '',
 };
 
-const userSchema = object({
+const ContactFormSchema = object({
   name: string()
     .matches(
       /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
@@ -30,17 +35,27 @@ const userSchema = object({
     .required(),
 });
 
-const ContactForm = ({ onSubmit }) => {
-  function handleSubmit({ name, phone }, { resetForm }) {
-    onSubmit(name, phone);
-    resetForm();
-  }
+const ContactForm = () => {
+  const contacts = useSelector(selectContacts);
+  const dispatch = useDispatch();
+
+  const handleSubmit = (values, actions) => {
+    const existingContact = contacts.find(
+      contact => contact.name === values.name
+    );
+
+    if (existingContact) {
+      return toast.error(`This name is already in contacts!`);
+    }
+    dispatch(addContact(values));
+    actions.resetForm();
+  };
 
   return (
     <FormikContainer
       initialValues={initialValues}
       onSubmit={handleSubmit}
-      validationSchema={userSchema}
+      validationSchema={ContactFormSchema}
     >
       <FormContainer autoComplete="off">
         <FormLabel>
